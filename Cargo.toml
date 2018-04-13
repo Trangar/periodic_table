@@ -1,0 +1,11 @@
+[package]
+name = "periodic_table"
+version = "0.1.0"
+authors = ["Victor Koenders <victor.koenders@gmail.com>"]
+readme = "readme.md"
+description = "Library that provides a list of elements in the periodic table"
+license = "MIT"
+repository = "https://github.com/trangar/periodic_table"
+
+[dependencies]
+csv = "0.15.0"
