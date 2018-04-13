@@ -1,3 +1,4 @@
+/// Contains the information of a single element
 #[derive(Debug)]
 pub struct Element {
     pub atomic_number: u32,
@@ -22,6 +23,7 @@ pub struct Element {
     pub year_discovered: Year,
 }
 
+/// The three possible states
 #[derive(Debug)]
 pub enum State {
     Solid,

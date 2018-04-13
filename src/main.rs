@@ -14,7 +14,7 @@ fn main() {
 // This file is auto generated. Modify main.rs instead of this file
 
 mod element;
-use element::{Element, IonRadius, State, Year};
+pub use element::{Element, IonRadius, State, Year};
 #[cfg(test)]
 mod test;
 
