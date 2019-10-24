@@ -1,5 +1,3 @@
-extern crate csv;
-
 use std::{fs::File, io::Write};
 
 /// Generate the lib.rs file with an element list

@@ -1,4 +1,4 @@
-use periodic_table;
+use crate::periodic_table;
 
 #[test]
 fn test_length() {

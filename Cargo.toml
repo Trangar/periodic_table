@@ -6,6 +6,7 @@ readme = "readme.md"
 description = "Library that provides a list of elements in the periodic table"
 license = "MIT"
 repository = "https://github.com/trangar/periodic_table"
+edition = "2018"
 
 [lib]
 name="periodic_table"
