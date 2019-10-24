@@ -7,5 +7,9 @@ description = "Library that provides a list of elements in the periodic table"
 license = "MIT"
 repository = "https://github.com/trangar/periodic_table"
 
-[dependencies]
+[lib]
+name="periodic_table"
+path="src/lib.rs"
+
+[build-dependencies]
 csv = "0.15.0"

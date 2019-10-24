@@ -11,7 +11,7 @@ fn main() {
     let mut f = File::create(&dest_path).unwrap();
 
     f.write_all(b"
-// This file is auto generated. Modify main.rs instead of this file
+// This file is auto generated. Modify build.rs instead of this file
 
 mod element;
 pub use element::{Element, IonRadius, State, Year};
