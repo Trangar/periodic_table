@@ -40,90 +40,43 @@ pub fn periodic_table() -> Vec<Element> {
 
         // pub atomic_number: u32,
         // pub symbol: &'static str,
-        items[1] = format!("\"{}\"", items[1]);
+        items[1] = str_literal(&items[1]);
         // pub name: &'static str,
-        items[2] = format!("\"{}\"", items[2]);
+        items[2] = str_literal(&items[2]);
         // pub atomic_mass: &'static str,
-        items[3] = format!("\"{}\"", items[3]);
+        items[3] = str_literal(&items[3]);
         // pub cpk_hex_color: &'static str,
-        items[4] = format!("\"{}\"", items[4]);
+        items[4] = str_literal(&items[4]);
         // pub electronic_configuration: &'static str,
-        items[5] = format!("\"{}\"", items[5]);
+        items[5] = str_literal(&items[5]);
         // pub electronegativity: Option<f32>,
-        items[6] = if items[6].len() == 0 {
-            String::from("None")
-        } else {
-            format!("Some({}_f32)", items[6])
-        };
+        items[6] = option_f32_literal(&items[6]);
         // pub atomic_radius: Option<u32>,
-        items[7] = if items[7].len() == 0 {
-            String::from("None")
-        } else {
-            format!("Some({})", items[7])
-        };
+        items[7] = option_literal(&items[7]);
         // pub ion_radius: Option<IonRadius>,
-        items[8] = if items[8].len() == 0 {
-            String::from("None")
-        } else {
-            let mut parts = items[8].split(' ');
-            let first = parts.next().unwrap().trim();
-            let second = parts.next().unwrap().trim();
-            format!("Some(IonRadius::new({}_f32, \"{}\"))", first, second)
-        };
+        items[8] = option_ion_radius_literal(&items[8]);
         // pub van_del_waals_radius: Option<u32>,
-        items[9] = if items[9].len() == 0 {
-            String::from("None")
-        } else {
-            format!("Some({})", items[9])
-        };
+        items[9] = option_literal(&items[9]);
         // pub ionization_energy: Option<u32>,
-        items[10] = if items[10].len() == 0 {
-            String::from("None")
-        } else {
-            format!("Some({})", items[10])
-        };
+        items[10] = option_literal(&items[10]);
         // pub electron_affinity: Option<i32>,
-        items[11] = if items[11].len() == 0 {
-            String::from("None")
-        } else {
-            format!("Some({})", items[11])
-        };
+        items[11] = option_literal(&items[11]);
         // pub oxidation_states: Vec<i32>,
-        items[12] = format!("vec![{}]", items[12]);
+        items[12] = vec_literal(&items[12]);
         // pub standard_state: Option<State>,
-        items[13] = if items[13].len() > 0 {
-            format!("Some(State::{})", uppercase(&items[13]))
-        } else {
-            String::from("None")
-        };
+        items[13] = option_state_literal(&items[13]);
         // pub bonding_type: &'static str,
-        items[14] = format!("\"{}\"", items[14]);
+        items[14] = str_literal(&items[14]);
         // pub melting_point: Option<u32>,
-        items[15] = if items[15].len() == 0 {
-            String::from("None")
-        } else {
-            format!("Some({})", items[15])
-        };
+        items[15] = option_literal(&items[15]);
         // pub boiling_point: Option<u32>,
-        items[16] = if items[16].len() == 0 {
-            String::from("None")
-        } else {
-            format!("Some({})", items[16])
-        };
+        items[16] = option_literal(&items[16]);
         // pub density: Option<f32>,
-        items[17] = if items[17].len() == 0 {
-            String::from("None")
-        } else {
-            format!("Some({}_f32)", items[17])
-        };
+        items[17] = option_f32_literal(&items[17]);
         // pub group_block: &'static str,
-        items[18] = format!("\"{}\"", items[18]);
+        items[18] = str_literal(&items[18]);
         // pub year_discovered: Year,
-        items[19] = if items[19] == "Ancient" {
-            String::from("Year::Ancient")
-        } else {
-            format!("Year::Known({})", items[19])
-        };
+        items[19] = year_literal(&items[19]);
 
         f.write_all(b"\tresult.push(Element {\n").unwrap();
         for i in 0..items.len() {
@@ -168,4 +121,62 @@ fn uppercase(string: &str) -> String {
         string.chars().next().unwrap().to_uppercase(),
         &string[1..]
     )
+}
+
+/// Return the string surrounded with double quotes
+fn str_literal(string: &str) -> String {
+    format!("\"{}\"", string)
+}
+
+/// Return the literal wrapped in an option
+fn option_literal(string: &str) -> String {
+    if string.len() != 0 {
+        format!("Some({})", string)
+    } else {
+        String::from("None")
+    }
+}
+
+/// Return the literal wrapped in an option as an f32
+fn option_f32_literal(string: &str) -> String {
+    if string.len() != 0 {
+        format!("Some({}_f32)", string)
+    } else {
+        String::from("None")
+    }
+}
+
+/// Return the literal wrapped in an option as a IonRadius
+fn option_ion_radius_literal(string: &str) -> String {
+    if string.len() != 0 {
+        let mut parts = string.split(' ');
+        let first = parts.next().unwrap().trim();
+        let second = parts.next().unwrap().trim();
+        format!("Some(IonRadius::new({}_f32, \"{}\"))", first, second)
+    } else {
+        String::from("None")
+    }
+}
+
+/// Return the literal wrapped in an option as a State
+fn option_state_literal(string: &str) -> String {
+    if string.len() != 0 {
+        format!("Some(State::{})", uppercase(string))
+    } else {
+        String::from("None")
+    }
+}
+
+/// Return the literal as a Year
+fn year_literal(string: &str) -> String {
+    if string == "Ancient" {
+        String::from("Year::Ancient")
+    } else {
+        format!("Year::Known({})", string)
+    }
+}
+
+/// Return the literal as a Vector
+fn vec_literal(string: &str) -> String {
+    format!("vec![{}]", string)
 }
