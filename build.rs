@@ -18,7 +18,7 @@ mod test;
 
 /// Return a list of elements in the periodic table
 pub fn periodic_table() -> Vec<Element> {
-    let mut result = Vec::new();
+    vec![
 ",
     )
     .unwrap();
@@ -78,18 +78,17 @@ pub fn periodic_table() -> Vec<Element> {
         // pub year_discovered: Year,
         items[19] = year_literal(&items[19]);
 
-        f.write_all(b"\tresult.push(Element {\n").unwrap();
+        f.write_all(b"\t\tElement {\n").unwrap();
         for i in 0..items.len() {
-            let line = format!("\t\t{}: {},\n", headers[i], items[i]);
+            let line = format!("\t\t\t{}: {},\n", headers[i], items[i]);
             f.write_all(line.as_bytes()).unwrap();
         }
-        f.write_all(b"\t});\n").unwrap();
+        f.write_all(b"\t\t},\n").unwrap();
     }
 
     f.write_all(
-        b"
-    result
-}",
+        b"\t]
+}\n",
     )
     .unwrap();
 }
