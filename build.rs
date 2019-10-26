@@ -1,116 +1,59 @@
-use std::{fs::File, io::Write};
+use handlebars::{
+    Context, Handlebars, Helper, HelperDef, HelperResult, Output, RenderContext, RenderError,
+};
+use serde::{Deserialize, Serialize};
+use std::{collections::BTreeMap, error::Error, fs::File};
 
-/// Generate the lib.rs file with an element list
-/// TODO: Maybe this list can be a static array?
-/// TODO: Maybe use lazy_static! ?
-fn main() {
-    let dest_path = "src/lib.rs";
-    let mut f = File::create(&dest_path).unwrap();
-
-    f.write_all(
-        b"
-// This file is auto generated. Modify build.rs instead of this file
-
-mod element;
-pub use element::{Element, IonRadius, State, Year};
-#[cfg(test)]
-mod test;
-
-/// Return a list of elements in the periodic table
-pub fn periodic_table() -> Vec<Element> {
-    vec![
-",
-    )
-    .unwrap();
-
-    let mut reader = csv::Reader::from_file("data.csv")
-        .unwrap()
-        .has_headers(true);
-    let headers: Vec<String> = reader.headers().unwrap();
-    let headers = headers
-        .into_iter()
-        .map(underscore_case)
-        .collect::<Vec<String>>();
-    for record in reader.decode() {
-        let record = record.unwrap();
-        let mut items: Vec<String> = record;
-        for item in &mut items {
-            *item = item.trim().to_string();
-        }
-
-        // pub atomic_number: u32,
-        // pub symbol: &'static str,
-        items[1] = str_literal(&items[1]);
-        // pub name: &'static str,
-        items[2] = str_literal(&items[2]);
-        // pub atomic_mass: &'static str,
-        items[3] = str_literal(&items[3]);
-        // pub cpk_hex_color: &'static str,
-        items[4] = str_literal(&items[4]);
-        // pub electronic_configuration: &'static str,
-        items[5] = str_literal(&items[5]);
-        // pub electronegativity: Option<f32>,
-        items[6] = option_f32_literal(&items[6]);
-        // pub atomic_radius: Option<u32>,
-        items[7] = option_literal(&items[7]);
-        // pub ion_radius: Option<IonRadius>,
-        items[8] = option_ion_radius_literal(&items[8]);
-        // pub van_del_waals_radius: Option<u32>,
-        items[9] = option_literal(&items[9]);
-        // pub ionization_energy: Option<u32>,
-        items[10] = option_literal(&items[10]);
-        // pub electron_affinity: Option<i32>,
-        items[11] = option_literal(&items[11]);
-        // pub oxidation_states: Vec<i32>,
-        items[12] = vec_literal(&items[12]);
-        // pub standard_state: Option<State>,
-        items[13] = option_state_literal(&items[13]);
-        // pub bonding_type: &'static str,
-        items[14] = str_literal(&items[14]);
-        // pub melting_point: Option<u32>,
-        items[15] = option_literal(&items[15]);
-        // pub boiling_point: Option<u32>,
-        items[16] = option_literal(&items[16]);
-        // pub density: Option<f32>,
-        items[17] = option_f32_literal(&items[17]);
-        // pub group_block: &'static str,
-        items[18] = str_literal(&items[18]);
-        // pub year_discovered: Year,
-        items[19] = year_literal(&items[19]);
-
-        f.write_all(b"\t\tElement {\n").unwrap();
-        for i in 0..items.len() {
-            let line = format!("\t\t\t{}: {},\n", headers[i], items[i]);
-            f.write_all(line.as_bytes()).unwrap();
-        }
-        f.write_all(b"\t\t},\n").unwrap();
-    }
-
-    f.write_all(
-        b"\t]
-}\n",
-    )
-    .unwrap();
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all(deserialize = "camelCase"))]
+struct Record {
+    atomic_number: String,
+    symbol: String,
+    name: String,
+    atomic_mass: String,
+    cpk_hex_color: String,
+    electronic_configuration: String,
+    electronegativity: String,
+    atomic_radius: String,
+    ion_radius: String,
+    van_del_waals_radius: String,
+    ionization_energy: String,
+    electron_affinity: String,
+    oxidation_states: String,
+    standard_state: String,
+    bonding_type: String,
+    melting_point: String,
+    boiling_point: String,
+    density: String,
+    group_block: String,
+    year_discovered: String,
 }
 
-/// Return the string with every uppercase character turned to a lowercase and prefixed with an '_'
-/// ``` rust
-/// assert_eq!("some_text", underscore_case("SomeText"));
-/// assert_eq!("camel_case", underscore_case("CamelCase"));
-/// ```
-fn underscore_case(name: String) -> String {
-    let mut str = String::new();
-    for (i, c) in name.trim().chars().enumerate() {
-        if i == 0 {
-            str.push_str(&c.to_lowercase().to_string());
-        } else if c.is_uppercase() {
-            str.push('_');
-            str.push_str(&c.to_lowercase().to_string());
-        } else {
-            str.push(c);
-        }
+#[derive(Clone, Copy)]
+struct StrHelper {
+    f: fn(&str) -> String,
+}
+
+impl StrHelper {
+    fn boxed(f: fn(&str) -> String) -> Box<Self> {
+        Box::new(StrHelper { f })
     }
-    str
+}
+
+impl HelperDef for StrHelper {
+    fn call<'reg: 'rc, 'rc>(
+        &self,
+        h: &Helper,
+        _: &Handlebars,
+        _: &Context,
+        _: &mut RenderContext,
+        out: &mut dyn Output,
+    ) -> HelperResult {
+        let param = h.param(0).ok_or(RenderError::new("Missing variable"))?;
+        let v = param.value().as_str().map(self.f);
+        out.write(&v.unwrap_or_default())?;
+        Ok(())
+    }
 }
 
 /// Return the string with the first character in uppercase
@@ -178,4 +121,51 @@ fn year_literal(string: &str) -> String {
 /// Return the literal as a Vector
 fn vec_literal(string: &str) -> String {
     format!("vec![{}]", string)
+}
+
+fn init_templating() -> Handlebars {
+    let mut handlebars = Handlebars::new();
+
+    handlebars.register_helper("str", StrHelper::boxed(str_literal));
+    handlebars.register_helper("option", StrHelper::boxed(option_literal));
+    handlebars.register_helper("option_f32", StrHelper::boxed(option_f32_literal));
+    handlebars.register_helper(
+        "option_ion_radius",
+        StrHelper::boxed(option_ion_radius_literal),
+    );
+    handlebars.register_helper("option_state", StrHelper::boxed(option_state_literal));
+    handlebars.register_helper("vec", StrHelper::boxed(vec_literal));
+    handlebars.register_helper("year", StrHelper::boxed(year_literal));
+
+    handlebars
+}
+
+/// Generate the lib.rs file with an element list
+/// TODO: Maybe this list can be a static array?
+/// TODO: Maybe use lazy_static! ?
+fn main() -> Result<(), Box<dyn Error>> {
+    let src_path = "lib.rs.tpl";
+    let dest_path = "src/lib.rs";
+
+    // create CSV reader
+    let mut reader = csv::ReaderBuilder::new()
+        .trim(csv::Trim::All)
+        .from_path("data.csv")?;
+
+    // get elements
+    let elements = reader.deserialize().collect::<Result<Vec<Record>, _>>()?;
+
+    // create template
+    let template_name = "lib.rs";
+    let mut handlebars = init_templating();
+    handlebars.register_template_file(template_name, src_path)?;
+
+    let mut data = BTreeMap::new();
+    data.insert("elements".to_string(), elements);
+
+    // render template to output file
+    let mut out = File::create(&dest_path)?;
+    handlebars.render_to_write(template_name, &data, &mut out)?;
+
+    Ok(())
 }
