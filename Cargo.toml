@@ -6,6 +6,13 @@ readme = "readme.md"
 description = "Library that provides a list of elements in the periodic table"
 license = "MIT"
 repository = "https://github.com/trangar/periodic_table"
+edition = "2018"
 
-[dependencies]
-csv = "0.15.0"
+[lib]
+name="periodic_table"
+path="src/lib.rs"
+
+[build-dependencies]
+csv = "1.1"
+handlebars = "2.0"
+serde = { version = "1.0", features = ["derive"] }
