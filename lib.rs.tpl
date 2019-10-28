@@ -1,14 +1,16 @@
 // This file is auto generated. Modify build.rs instead of this file
 pub use element::{Element, IonRadius, State, Year};
 
+use lazy_static::lazy_static;
+
 mod element;
 #[cfg(test)]
 mod test;
 
-/// Return a list of elements in the periodic table
-pub fn periodic_table() -> Vec<Element> {
-    vec![
-        {{#each elements}}Element {
+lazy_static! {
+    /// The list of elements in the periodic table
+    static ref PERIODIC_TABLE: Vec<Element> = vec![{{#each elements}}
+        Element {
             atomic_number: {{atomic_number}},
             symbol: {{str symbol}},
             name: {{str name}},
@@ -29,7 +31,11 @@ pub fn periodic_table() -> Vec<Element> {
             density: {{option_f32 density}},
             group_block: {{str group_block}},
             year_discovered: {{year year_discovered}},
-        },
-        {{/each}}
-    ]
+        },{{/each}}
+    ];
+}
+
+/// Return a list of elements in the periodic table
+pub fn periodic_table() -> &'static [Element] {
+    &PERIODIC_TABLE
 }

@@ -12,6 +12,9 @@ edition = "2018"
 name="periodic_table"
 path="src/lib.rs"
 
+[dependencies]
+lazy_static = "1.4"
+
 [build-dependencies]
 csv = "1.1"
 handlebars = "2.0"

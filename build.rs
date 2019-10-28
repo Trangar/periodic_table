@@ -141,8 +141,6 @@ fn init_templating() -> Handlebars {
 }
 
 /// Generate the lib.rs file with an element list
-/// TODO: Maybe this list can be a static array?
-/// TODO: Maybe use lazy_static! ?
 fn main() -> Result<(), Box<dyn Error>> {
     let src_path = "lib.rs.tpl";
     let dest_path = "src/lib.rs";
