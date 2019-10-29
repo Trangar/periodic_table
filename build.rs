@@ -75,7 +75,7 @@ mod filters {
             let first = parts.next().unwrap().trim();
             let second = parts.next().unwrap().trim();
             format!(
-                "Some(IonRadius {{ radius: {}_f32, variation: \"{}\" }})",
+                "Some(IonRadius {{ radius: {}_f32, variation: \"{}\", }})",
                 first, second
             )
         } else {

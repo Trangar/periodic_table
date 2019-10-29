@@ -5,9 +5,8 @@ os:
 cache: cargo
 
 before_script:
-    - rustup component add clippy rustfmt
+    - rustup component add clippy
 script:
     - cargo test --verbose --all
     - cargo clippy
-    - cargo fmt --all -- --check
 
