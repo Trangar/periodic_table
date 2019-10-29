@@ -10,9 +10,4 @@ script:
     - cargo test --verbose --all
     - cargo clippy
     - cargo fmt --all -- --check
-deploy:
-    provider: cargo
-    token:
-        secure: 1HX2XeHEWbywMvLHlhP2pgA7qvO48lIUbIvqovaEdxLH9jEkeYluVb0VEeic8xGXYwvmGv2fy9LhV4peA7UbktqHn/kXDmW1cFrUkJdxLIepalLM+zfMaKKwsWCOboO1hDMuGqI6gMAZ5s9xEVlFR503oug525xbwQOFAG3KgpdGdc9MbNf3MbF2gt792waBgzsVfB7ckJHm2RH9cqd6aIQuWV/0XQVqLpnAg10Ih2U/W/S9ccvFWOUHuYQIezydaHxUK/0R5sJp90COuUmnmNU1oxP58d34816jamb9qfBz4Kue+SKJMLe+SteX6I5z1+MQ6H3EMh2O9E4GjMcWWOjnaikEmDj5SVfRcmdMZjPmx+eephqOpENYvmJhGNMXuNptcQr4L+SJ4oaG6eJvIOeFJkrJHlGzmp2juEAgAD8Vi9IXhAn1iuIQdMb3wKji4wx94OtoKKoGOSqaBITIjh+LBz1EmXJCaQYIsBiwDOxiNX19gnqOxZT1ezvpht/k/PXkFxh8jZDBItOjH1uF2WZ1vVxBYDlySX/+XRBh7cZNHXnpvF4pQ7FOGWtb5nEI5aeBSSra+faof2qIIdz5ZDHufB1C35A4XvGnolWKD0t6ltQh4S84zgCubmHfvseVTc0mp2qbM8YGtnd8DbhymIvE9a9IlJvLSyLEfvBb3MQ=
-        on:
-            tags: true
+
