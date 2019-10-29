@@ -8,10 +8,6 @@ license = "MIT"
 repository = "https://github.com/trangar/periodic_table"
 edition = "2018"
 
-[lib]
-name="periodic_table"
-path="src/lib.rs"
-
 [build-dependencies]
 askama = "0.8"
 csv = "1.1"
