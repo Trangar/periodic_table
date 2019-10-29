@@ -1,0 +1,10 @@
+language: rust
+os:
+    - linux
+    - osx
+
+cache: cargo
+script:
+    - cargo test --verbose --all
+    - cargo build --release --verbose --all
+
