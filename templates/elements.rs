@@ -1,15 +1,3 @@
-// This file is auto generated. Modify build.rs instead of this file
-#![deny(clippy::pedantic, clippy::indexing_slicing)]
-#![allow(clippy::unreadable_literal)]
-
-#![cfg_attr(not(test), no_std)]
-
-pub use element::{Element, IonRadius, State, Year};
-
-mod element;
-#[cfg(test)]
-mod test;
-
 /// The list of elements in the periodic table
 static PERIODIC_TABLE: &[&Element] = &[{% for e in elements %}
     &Element {
@@ -35,8 +23,3 @@ static PERIODIC_TABLE: &[&Element] = &[{% for e in elements %}
         year_discovered: {{ e.year_discovered|year }},
     },{% endfor %}
 ];
-
-/// Return a list of elements in the periodic table
-pub fn periodic_table() -> &'static [&'static Element] {
-    &PERIODIC_TABLE
-}

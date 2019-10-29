@@ -2,7 +2,7 @@
 
 use askama::Template;
 use serde::Deserialize;
-use std::{error::Error, fs::File, io::Write};
+use std::{env, error::Error, fs::File, io::Write, path::Path};
 
 #[derive(Deserialize, Debug)]
 #[serde(rename_all(deserialize = "camelCase"))]
@@ -30,7 +30,7 @@ struct Record {
 }
 
 #[derive(Template)]
-#[template(path = "lib.rs", escape = "none")]
+#[template(path = "elements.rs", escape = "none")]
 struct Data {
     elements: Vec<Record>,
 }
@@ -109,7 +109,8 @@ mod filters {
 
 /// Generate the lib.txt file with an element list
 fn main() -> Result<(), Box<dyn Error>> {
-    let dest_path = "src/lib.rs";
+    let out_dir = env::var("OUT_DIR")?;
+    let dest_path = Path::new(&out_dir).join("elements.rs");
 
     // create CSV reader
     let mut reader = csv::ReaderBuilder::new()
