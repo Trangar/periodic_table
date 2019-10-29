@@ -9,7 +9,7 @@ fn test_length() {
 #[test]
 fn test_hydrogen() {
     let elements = periodic_table();
-    let hydrogen = &elements[0];
+    let hydrogen = elements.get(0).unwrap();
     assert_eq!("H", hydrogen.symbol);
     assert_eq!(1, hydrogen.atomic_number);
     assert_eq!("Hydrogen", hydrogen.name);

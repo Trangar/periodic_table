@@ -38,8 +38,8 @@ pub struct IonRadius {
 }
 
 impl IonRadius {
-    pub fn new(radius: f32, variation: &'static str) -> IonRadius {
-        IonRadius { radius, variation }
+    pub fn new(radius: f32, variation: &'static str) -> Self {
+        Self { radius, variation }
     }
 }
 

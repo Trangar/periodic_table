@@ -1,4 +1,5 @@
 # Periodic Table
+[![Build Status](https://travis-ci.com/Trangar/periodic_table.svg?branch=master)](https://travis-ci.com/Trangar/periodic_table)
 
 This library provides a list of elements in the periodic table. For more info, see the [docs](https://docs.rs/periodic_table)
 

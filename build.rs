@@ -1,3 +1,5 @@
+#![deny(clippy::pedantic, clippy::indexing_slicing)]
+
 use askama::Template;
 use serde::Deserialize;
 use std::{error::Error, fs::File, io::Write};

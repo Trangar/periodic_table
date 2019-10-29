@@ -1,4 +1,7 @@
 // This file is auto generated. Modify build.rs instead of this file
+#![deny(clippy::pedantic, clippy::indexing_slicing)]
+#![allow(clippy::unreadable_literal)]
+
 pub use element::{Element, IonRadius, State, Year};
 
 use lazy_static::lazy_static;
