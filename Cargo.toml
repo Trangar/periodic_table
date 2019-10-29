@@ -1,6 +1,6 @@
 [package]
 name = "periodic_table"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["Victor Koenders <victor.koenders@gmail.com>"]
 readme = "readme.md"
 description = "Library that provides a list of elements in the periodic table"
