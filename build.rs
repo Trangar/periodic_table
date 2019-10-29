@@ -74,7 +74,10 @@ mod filters {
             let mut parts = string.split(' ');
             let first = parts.next().unwrap().trim();
             let second = parts.next().unwrap().trim();
-            format!("Some(IonRadius::new({}_f32, \"{}\"))", first, second)
+            format!(
+                "Some(IonRadius {{ radius: {}_f32, variation: \"{}\" }})",
+                first, second
+            )
         } else {
             String::from("None")
         })
@@ -99,8 +102,8 @@ mod filters {
     }
 
     /// Return the literal as a Vector
-    pub fn vec(string: &str) -> askama::Result<String> {
-        Ok(format!("vec![{}]", string))
+    pub fn slice(string: &str) -> askama::Result<String> {
+        Ok(format!("&[{}]", string))
     }
 }
 

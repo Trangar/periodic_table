@@ -12,9 +12,6 @@ edition = "2018"
 name="periodic_table"
 path="src/lib.rs"
 
-[dependencies]
-lazy_static = "1.4"
-
 [build-dependencies]
 askama = "0.8"
 csv = "1.1"

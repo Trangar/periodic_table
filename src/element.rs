@@ -13,7 +13,7 @@ pub struct Element {
     pub van_del_waals_radius: Option<u32>,
     pub ionization_energy: Option<u32>,
     pub electron_affinity: Option<i32>,
-    pub oxidation_states: Vec<i32>,
+    pub oxidation_states: &'static [i32],
     pub standard_state: Option<State>,
     pub bonding_type: &'static str,
     pub melting_point: Option<u32>,
@@ -35,12 +35,6 @@ pub enum State {
 pub struct IonRadius {
     pub radius: f32,
     pub variation: &'static str,
-}
-
-impl IonRadius {
-    pub fn new(radius: f32, variation: &'static str) -> Self {
-        Self { radius, variation }
-    }
 }
 
 #[derive(Debug)]
