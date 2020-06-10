@@ -9,6 +9,6 @@ repository = "https://github.com/trangar/periodic_table"
 edition = "2018"
 
 [build-dependencies]
-askama = "0.8"
+askama = "0.9"
 csv = "1.1"
 serde = { version = "1.0", features = ["derive"] }
