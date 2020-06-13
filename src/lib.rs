@@ -11,6 +11,7 @@ mod test;
 include!(concat!(env!("OUT_DIR"), "/elements.rs"));
 
 /// Return a list of elements in the periodic table
+#[must_use]
 pub fn periodic_table() -> &'static [&'static Element] {
     &PERIODIC_TABLE
 }
