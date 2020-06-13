@@ -41,7 +41,7 @@ mod filters {
         format!(
             "{}{}",
             string.chars().next().unwrap().to_uppercase(),
-            &string[1..]
+            string.get(1..).unwrap()
         )
     }
 
@@ -52,25 +52,27 @@ mod filters {
 
     /// Return the literal wrapped in an option
     pub fn option(string: &str) -> askama::Result<String> {
-        Ok(if string.len() != 0 {
-            format!("Some({})", string)
-        } else {
+        Ok(if string.is_empty() {
             String::from("None")
+        } else {
+            format!("Some({})", string)
         })
     }
 
     /// Return the literal wrapped in an option as an f32
     pub fn option_f32(string: &str) -> askama::Result<String> {
-        Ok(if string.len() != 0 {
-            format!("Some({}_f32)", string)
-        } else {
+        Ok(if string.is_empty() {
             String::from("None")
+        } else {
+            format!("Some({}_f32)", string)
         })
     }
 
-    /// Return the literal wrapped in an option as a IonRadius
+    /// Return the literal wrapped in an option as a `IonRadius`
     pub fn option_ion_radius(string: &str) -> askama::Result<String> {
-        Ok(if string.len() != 0 {
+        Ok(if string.is_empty() {
+            String::from("None")
+        } else {
             let mut parts = string.split(' ');
             let first = parts.next().unwrap().trim();
             let second = parts.next().unwrap().trim();
@@ -78,17 +80,15 @@ mod filters {
                 "Some(IonRadius {{ radius: {}_f32, variation: \"{}\", }})",
                 first, second
             )
-        } else {
-            String::from("None")
         })
     }
 
     /// Return the literal wrapped in an option as a State
     pub fn option_state(string: &str) -> askama::Result<String> {
-        Ok(if string.len() != 0 {
-            format!("Some(State::{})", uppercase(string))
-        } else {
+        Ok(if string.is_empty() {
             String::from("None")
+        } else {
+            format!("Some(State::{})", uppercase(string))
         })
     }
 
