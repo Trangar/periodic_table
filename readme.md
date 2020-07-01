@@ -1,5 +1,6 @@
 # Periodic Table
-[![Build Status](https://travis-ci.com/Trangar/periodic_table.svg?branch=master)](https://travis-ci.com/Trangar/periodic_table)
+
+![](https://github.com/trangar/periodic_table/workflows/Quickstart/badge.svg)
 
 This library provides a list of elements in the periodic table. For more info, see the [docs](https://docs.rs/periodic_table)
 
