@@ -1,4 +1,5 @@
 #![deny(clippy::pedantic, clippy::indexing_slicing)]
+#![allow(clippy::unnecessary_wraps)]
 
 use askama::Template;
 use serde::Deserialize;
