@@ -48,7 +48,7 @@ mod filters {
 
     /// Return the string surrounded with double quotes
     pub fn str(string: &str) -> askama::Result<String> {
-        Ok(format!("\"{}\"", string))
+        Ok(format!("\"{string}\""))
     }
 
     /// Return the literal wrapped in an option
@@ -56,7 +56,7 @@ mod filters {
         Ok(if string.is_empty() {
             String::from("None")
         } else {
-            format!("Some({})", string)
+            format!("Some({string})")
         })
     }
 
@@ -65,7 +65,7 @@ mod filters {
         Ok(if string.is_empty() {
             String::from("None")
         } else {
-            format!("Some({}_f32)", string)
+            format!("Some({string}_f32)")
         })
     }
 
@@ -77,10 +77,7 @@ mod filters {
             let mut parts = string.split(' ');
             let first = parts.next().unwrap().trim();
             let second = parts.next().unwrap().trim();
-            format!(
-                "Some(IonRadius {{ radius: {}_f32, variation: \"{}\", }})",
-                first, second
-            )
+            format!("Some(IonRadius {{ radius: {first}_f32, variation: \"{second}\", }})",)
         })
     }
 
@@ -98,13 +95,13 @@ mod filters {
         Ok(if string == "Ancient" {
             String::from("Year::Ancient")
         } else {
-            format!("Year::Known({})", string)
+            format!("Year::Known({string})")
         })
     }
 
     /// Return the literal as a Vector
     pub fn slice(string: &str) -> askama::Result<String> {
-        Ok(format!("&[{}]", string))
+        Ok(format!("&[{string}]"))
     }
 }
 
