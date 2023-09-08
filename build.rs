@@ -103,6 +103,15 @@ mod filters {
     pub fn slice(string: &str) -> askama::Result<String> {
         Ok(format!("&[{string}]"))
     }
+
+    /// Print the variable in a suitable way for the documentation
+    pub fn doc(string: &str) -> askama::Result<String> {
+        if string.trim().is_empty() {
+            Ok("*unknown*".to_string())
+        } else {
+            Ok(format!("`{string}`"))
+        }
+    }
 }
 
 /// Generate the lib.txt file with an element list

@@ -10,7 +10,15 @@ mod test;
 
 include!(concat!(env!("OUT_DIR"), "/elements.rs"));
 
-/// Return a list of elements in the periodic table
+/// Return a list of elements in the periodic table.
+///
+/// Note that this is 0-indexed, so to get H/Hydrogen with atomic number 1, you actually need to fetch index `0`.
+///
+/// ```
+/// let hydrogen = periodic_table::periodic_table()[0];
+/// assert_eq!(hydrogen.symbol, "H");
+/// assert_eq!(hydrogen.name, "Hydrogen");
+/// ```
 #[must_use]
 pub fn periodic_table() -> &'static [&'static Element] {
     PERIODIC_TABLE
